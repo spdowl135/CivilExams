@@ -28,6 +28,8 @@ else
 	//User is logged in!
 }
 $('#topbar').load('http://www.workjar.com/exams/app/topbar.php');
+var testlist = "http://www.workjar.com/exams/app/testlist.php";
+$('#testlist').load(testlist);
 document.getElementById("thisuser").innerHTML = localStorage.getItem("user_name");
 $('#remove').click(function() {
 localStorage.removeItem("user_name");
@@ -67,10 +69,7 @@ window.location = "index.html";
 		
 		<nav id="primary_nav">
 	<ul>
-		<li><a href="mytests.html">My Tests</a></li>
-		<li><a href="#">Analytics</a></li>
-		<li><a href="#">Settings</a></li>
-		<li><a href="#">Logout</a></li>
+		<div id = "testlist"></div>
 	</ul>
 	</nav>
 
