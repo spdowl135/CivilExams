@@ -31,14 +31,19 @@ $('#topbar').load('http://www.workjar.com/exams/app/topbar.php');
 var newURL = window.location.href;
 var pathArray = window.location.href.split( '=' );
 var firstLevel = pathArray[1];
-var testpartsurl = "http://www.workjar.com/exams/app/testparts.php?testid=" + firstLevel;
+document.getElementById('testid2').value = firstLevel;
+document.getElementById('userid2').value = person;
+var statsurl = "http://www.workjar.com/exams/app/stats.php?testid=" + firstLevel;
 var testnameurl = "http://www.workjar.com/exams/app/testname.php?testid=" + firstLevel;
-$('#testname').load(testnameurl);
-$('#testparts').load(testpartsurl);
-document.getElementById("thisuser").innerHTML = localStorage.getItem("user_name");
-$('#remove').click(function() {
-localStorage.removeItem("user_name");
-window.location = "index.html";
+$('#testname2').load(testnameurl);
+$('#stats').load(statsurl);
+$("#addtest").click(function(event){
+    event.preventDefault();
+    $.post( 'http://www.workjar.com/exams/app/addtest.php', $("#newtest").serialize(), function(data){
+        $("#thisform").hide();
+        $("#formresults").html(data);
+        window.location = "mytests.html";
+    });
 });
 };	
     </script>
@@ -67,17 +72,21 @@ window.location = "index.html";
 <div class="clear"></div>
 <div id="content">
 	<div class="clear"></div>
+		<div id = "testname2"></div>
+		<hr />
+<div id = "stats"></div>
+<div id = "thisform">
+<form method="post" id="newtest" name="newtest" class="searchform" enctype="multipart/form-data">
+	<input type='hidden' name='testid2' id='testid2' value=''>
+	<input type='hidden' name='userid2' id='userid2' value=''>
+<p class = "answerbtn">
+<input type = "button" id = "addtest" name = "addtest" class= "formsubmit2" value = "Add Test" />
+</p>
+</form>
+</div>
 	<br />
-	<div id = "testname"></div>
-		
-		<nav id="primary_nav">
-	<ul>
-		<div id = "testparts"></div>
-		
-	</ul>
-	</nav>
-
-	<br />
+	<div id = "formresults"></div>
+		<div class="clear"></div>
 </div>
 <div class="clear"></div>
 

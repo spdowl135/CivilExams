@@ -21,21 +21,39 @@ function onDeviceReady() {
 var person = window.localStorage.getItem('user_id');
 if (person === null || person.length === 0)
 {
-    window.location = "signin.html";
+    //window.location = "index.html";
 }
 else
 {
 	//User is logged in!
 }
 $('#topbar').load('http://www.workjar.com/exams/app/topbar.php');
-var newURL = window.location.href;
-var pathArray = window.location.href.split( '=' );
-var firstLevel = pathArray[1];
-var testpartsurl = "http://www.workjar.com/exams/app/testparts.php?testid=" + firstLevel;
-var testnameurl = "http://www.workjar.com/exams/app/testname.php?testid=" + firstLevel;
-$('#testname').load(testnameurl);
-$('#testparts').load(testpartsurl);
-document.getElementById("thisuser").innerHTML = localStorage.getItem("user_name");
+$('#formsubmit').click(function(){
+var formData = $("#signin").serialize();
+ $.ajax({
+	type: 'POST',
+	data: formData,
+	dataType: 'json',
+	url: 'http://www.workjar.com/exams/app/login.php',
+	success: function(res) {
+    if (res.success) {
+      localStorage.setItem('user_id', res.user_id);  //set user id to local storage
+      window.location = "index.html";
+    } else {
+      alert('Email or Password do not match!');
+    }
+  },
+  error: function() {
+    //this will trigger in case the server send invalid JSON (or other types of errors)
+    alert('Error logging in');
+  }
+    });
+	return false;
+});
+//document.getElementById("thisuser").innerHTML = localStorage.getItem("user_name");
+$('#register').click(function() {
+	window.location = "register.html";
+});
 $('#remove').click(function() {
 localStorage.removeItem("user_name");
 window.location = "index.html";
@@ -68,15 +86,20 @@ window.location = "index.html";
 <div id="content">
 	<div class="clear"></div>
 	<br />
-	<div id = "testname"></div>
-		
-		<nav id="primary_nav">
-	<ul>
-		<div id = "testparts"></div>
-		
-	</ul>
-	</nav>
+    <div class="container">
 
+      <form class="form-signin" method="post" id="signin" name="signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">E-Mail</label>
+        <input type="text" id="inputuser" name="inputuser" class="form-control" placeholder="E-Mail" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputpassword" name="inputpassword" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" id="formsubmit" name="formsubmit" type="submit">Sign in</button>
+      </form>
+      <br />
+      </div>
+      <br /><br /><br />
+<input type = "button" id = "register" name = "register" class= "formsubmit2" value = "Register" />
 	<br />
 </div>
 <div class="clear"></div>

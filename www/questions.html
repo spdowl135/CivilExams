@@ -19,6 +19,15 @@
 document.addEventListener('deviceready', this.onDeviceReady, false);	
 function onDeviceReady() {
 //app.receivedEvent('deviceready');
+var person = window.localStorage.getItem('user_id');
+if (person === null || person.length === 0)
+{
+    window.location = "signin.html";
+}
+else
+{
+	//User is logged in!
+}
 $('#resultsqtns').hide();
 var newURL = window.location.href;
 var pathArray = window.location.href.split( '=' );
@@ -79,17 +88,6 @@ $('#btnprv').click(function() {
 	window.location = "questions.html?testid=" + newarray + "&sctn=" + secondLevel + "&questions=" + thirdLevel + "&qn=" + numericid;
 	}
 });
-/*
-var items = window.localStorage.getItem('user_name');
-if (items === null || items.length === 0)
-{
-    //window.location = "index.html";
-}
-else
-{
-	//User is logged in!
-}
-*/
 };
 </script>
  <script type="text/javascript">

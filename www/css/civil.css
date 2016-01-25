@@ -516,6 +516,11 @@ font-size:12px;}
 	border-radius: 20px;
 }
 
+#stats {
+	text-align: center;
+	font-size: 15px;
+}
+
 /*Cell Phone Portrait
 @media only screen 
     and (max-device-width: 799px), 

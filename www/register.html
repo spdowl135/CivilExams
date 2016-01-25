@@ -21,21 +21,39 @@ function onDeviceReady() {
 var person = window.localStorage.getItem('user_id');
 if (person === null || person.length === 0)
 {
-    window.location = "signin.html";
+    //window.location = "index.html";
 }
 else
 {
 	//User is logged in!
 }
 $('#topbar').load('http://www.workjar.com/exams/app/topbar.php');
-var newURL = window.location.href;
-var pathArray = window.location.href.split( '=' );
-var firstLevel = pathArray[1];
-var testpartsurl = "http://www.workjar.com/exams/app/testparts.php?testid=" + firstLevel;
-var testnameurl = "http://www.workjar.com/exams/app/testname.php?testid=" + firstLevel;
-$('#testname').load(testnameurl);
-$('#testparts').load(testpartsurl);
-document.getElementById("thisuser").innerHTML = localStorage.getItem("user_name");
+//document.getElementById("thisuser").innerHTML = localStorage.getItem("user_id");
+$('#submitbtn1').click(function(event) {
+var formData = $("#form-register").serialize();
+ $.ajax({
+	type: 'POST',
+	data: formData,
+	dataType: 'json',
+	url: 'http://www.workjar.com/exams/app/register.php',
+	success: function(res) {
+    if (res.success) {
+      localStorage.setItem('user_id', res.user_id);  //set user id to local storage
+      window.location = "index.html";
+    } else {
+      alert('Error Registering!');
+    }
+  },
+  error: function() {
+    //this will trigger in case the server send invalid JSON (or other types of errors)
+    alert('Error Registering');
+  }
+    });
+	return false;
+});
+$('#signin').click(function() {
+	window.location = "signin.html";
+});
 $('#remove').click(function() {
 localStorage.removeItem("user_name");
 window.location = "index.html";
@@ -68,15 +86,22 @@ window.location = "index.html";
 <div id="content">
 	<div class="clear"></div>
 	<br />
-	<div id = "testname"></div>
-		
-		<nav id="primary_nav">
-	<ul>
-		<div id = "testparts"></div>
-		
-	</ul>
-	</nav>
-
+      <form class="form-signin" id="form-register" name="form-register" method="post">
+        <h2 class="form-signin-heading">Please Register</h2>
+        <label for="inputEmail" class="sr-only">First Name</label>
+        <input type="text" id="inputFName" name="inputFName" class="form-control" placeholder="First Name" required autofocus>
+        <label for="inputEmail" class="sr-only">Last Name</label>
+        <input type="text" id="inputLName" name="inputLName" class="form-control" placeholder="Last Name" required autofocus>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required autofocus>
+        <label for="inputPassword" class="sr-only">Confirm Password</label>
+        <input type="password" id="inputPassword2" name="inputPassword2" class="form-control" placeholder="Confirm Password" required>
+        <button class="btn btn-lg btn-primary btn-block" id="submitbtn1" name="submitbtn1" type="submit">Register</button>
+      </form>
+      <br /><br /><br />
+<input type = "button" id = "signin" name = "signin" class= "formsubmit2" value = "Sign In" />
 	<br />
 </div>
 <div class="clear"></div>

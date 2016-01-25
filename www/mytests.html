@@ -18,19 +18,19 @@
     <script type="text/javascript">
 document.addEventListener('deviceready', this.onDeviceReady, false);	
 function onDeviceReady() {
-var items = window.localStorage.getItem('user_name');
-if (items === null || items.length === 0)
+var person = window.localStorage.getItem('user_id');
+if (person === null || person.length === 0)
 {
-    //window.location = "index.html";
+    window.location = "signin.html";
 }
 else
 {
 	//User is logged in!
 }
 $('#topbar').load('http://www.workjar.com/exams/app/topbar.php');
-var testlist = "http://www.workjar.com/exams/app/testlist.php";
+var testlist = "http://www.workjar.com/exams/app/testlist.php?userid=" + person;
 $('#testlist').load(testlist);
-document.getElementById("thisuser").innerHTML = localStorage.getItem("user_name");
+document.getElementById("thisuser").innerHTML = localStorage.getItem("user_id");
 $('#remove').click(function() {
 localStorage.removeItem("user_name");
 window.location = "index.html";
