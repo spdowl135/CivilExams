@@ -34,20 +34,18 @@ var pathArray = window.location.href.split( '=' );
 var thirdLevel = pathArray[2];
 var fourthLevel = pathArray[3];
 var fifthLevel = pathArray[4];
+var sixthLevel = pathArray[5];
 var secondLevel = pathArray[1];
 var newarray = secondLevel.split('&',1);
 var secondLevel = thirdLevel.split('&',1);
 var thirdLevel = fourthLevel.split('&',1);
-//document.getElementById("testname").innerHTML = newarray;
-//document.getElementById("qnum").innerHTML = fifthLevel;
-//document.getElementById("sectionurl").innerHTML = secondLevel;
-//document.getElementById("numqsurl").innerHTML = thirdLevel;
-//document.getElementById("fullurl").innerHTML = newURL;
-//document.getElementById("result").innerHTML = newarray;
+var fourthLevel = fifthLevel.split('&',1);
 $('#topbar').load('http://www.workjar.com/exams/app/topbar.php');
 document.getElementById('sctn1').value = secondLevel;
 document.getElementById('testid1').value = newarray;
-document.getElementById('qnum1').value = fifthLevel;
+document.getElementById('qnum1').value = fourthLevel;
+document.getElementById('ssnid').value = sixthLevel;
+document.getElementById('userid1').value = person;
 var sw = screen.width;
 var viewportwidth = window.innerWidth;
 var viewportheight = window.innerHeight;
@@ -60,33 +58,17 @@ $('#buttons1').load(answers);
 $('#sbmitbtn').click(function(event) {
 	event.preventDefault();
 	//alert( $("#answerform").serialize() );
-    $.post( 'http://www.workjar.com/exams/app/recdanswer.php', $("#answerform").serialize(), function(data){
+    $.post( 'http://www.workjar.com/exams/app/recdanswer2.php', $("#answerform").serialize(), function(data){
     	$('#hidethis').hide();
-    	$('#resultsqtns').show();
-        $("#resultsqtns").html(data);
+	if (+fourthLevel === +thirdLevel) {
+		window.location = "results.html?testid=" + newarray + "&sctn=" + secondLevel + "&questions=" + thirdLevel + "&qn=" + numericid  + "&ssnid=" + sixthLevel;
+	}
+	else
+	{
+	var numericid = +fourthLevel + 1;
+	window.location = "testq.html?testid=" + newarray + "&sctn=" + secondLevel + "&questions=" + thirdLevel + "&qn=" + numericid  + "&ssnid=" + sixthLevel;
+	}
     });
-});
-
-$('#btnnxt').click(function() {
-	if (+fifthLevel === +thirdLevel) {
-		location.reload();
-	}
-	else
-	{
-	var numericid = +fifthLevel + 1;
-	window.location = "questions.html?testid=" + newarray + "&sctn=" + secondLevel + "&questions=" + thirdLevel + "&qn=" + numericid;
-	}
-});
-
-$('#btnprv').click(function() {
-	if (+fifthLevel === 1) {
-		location.reload();
-	}
-	else
-	{
-	var numericid = +fifthLevel - 1;
-	window.location = "questions.html?testid=" + newarray + "&sctn=" + secondLevel + "&questions=" + thirdLevel + "&qn=" + numericid;
-	}
 });
 };
 </script>
@@ -115,7 +97,6 @@ $('#btnprv').click(function() {
 	<div class="clear"></div>
 	<br />
     		<div id = "testinfo"></div>
-		<input type="button" id = "btnprv" value="Previous" /><input type="button" id = "btnnxt" value="Next" />
         <br /><br />
         <div class="clear"></div>
             <p><div id = "question"></div></p>
@@ -126,6 +107,8 @@ $('#btnprv').click(function() {
 <input type='hidden' name='sctn1' id='sctn1' value=''>
 <input type='hidden' name='testid1' id='testid1' value=''>
 <input type='hidden' name='qnum1' id='qnum1' value=''>
+<input type='hidden' name='userid1' id='userid1' value=''>
+<input type='hidden' name='ssnid' id='ssnid' value=''>
 <div id = "buttons1"></div>
 <p class = "answerbtn">
 <input type = "button" id = "sbmitbtn" name = "sbmitbtn" class= "formsubmit2" value = "Answer" />
@@ -133,9 +116,6 @@ $('#btnprv').click(function() {
 </form>
 </div>
 <br />
-<div id = "resultsqtns">
-
-</div>
 	<br />
 </div>
 <div class="clear"></div>
