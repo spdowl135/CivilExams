@@ -28,10 +28,12 @@ else
 	//User is logged in!
 }
 $('#topbar').load('http://www.workjar.com/exams/app/topbar.php');
-document.getElementById("thisuser").innerHTML = localStorage.getItem("user_id");
-$('#remove').click(function() {
-localStorage.removeItem("user_id");
-window.location = "signin.html";
+var statsurl = "http://www.workjar.com/exams/app/stats3.php?userid=" + person;
+$('#thisuser').load(person);
+$('#stats2').load(statsurl);
+$("#done").click(function(event){
+    event.preventDefault();
+        window.location = "index.html";
 });
 };	
     </script>
@@ -60,22 +62,17 @@ window.location = "signin.html";
 <div class="clear"></div>
 <div id="content">
 	<div class="clear"></div>
-	<br />
-	<div id = "thisuser">
+			<div id = "thisuser">
 		
 		</div>
-		
-		<nav id="primary_nav">
-	<ul>
-		<li><a href="mytests.html">My Tests</a></li>
-		<li><a href="search.html">Search Tests</a></li>
-		<li><a href="analytics.html">Analytics</a></li>
-		<li><a href="#">Settings</a></li>
-		<li><a id="remove">Logout</a></li>
-	</ul>
-	</nav>
+<div id = "stats2"></div>
+<!--
+<p class = "answerbtn">
+<input type = "button" id = "done" name = "done" class= "formsubmit2" value = "Done" />
+</p>-->
 
 	<br />
+		<div class="clear"></div>
 </div>
 <div class="clear"></div>
 
