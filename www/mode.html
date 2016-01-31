@@ -39,7 +39,7 @@ var secondLevel = thirdLevel.split('&',1);
 var thirdLevel = fourthLevel.split('&',1);
 var d = new Date();
 var n = d.getTime();
-var statsurl = "http://www.workjar.com/exams/app/stats.php?testid=" + newarray;
+var statsurl = "http://www.workjar.com/exams/app/stats.php?testid=" + newarray + "&sctn=" + secondLevel + "&userid=" + person;
 var testnameurl = "http://www.workjar.com/exams/app/testname.php?testid=" + newarray;
 $('#testname2').load(testnameurl);
 $('#stats').load(statsurl);
